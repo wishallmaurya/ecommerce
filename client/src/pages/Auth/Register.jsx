@@ -11,6 +11,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [question, setQuestion] = useState("");
   const navigate = useNavigate();
 
   // form function
@@ -23,6 +24,7 @@ const Register = () => {
         password,
         phone,
         address,
+        question,
       });
       if (res.data.success) {
         toast.success(res.data.message);
@@ -83,7 +85,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
+            <label htmlFor="exampleInputPassword" className="form-label">
               Password
             </label>
             <input
@@ -91,8 +93,9 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-control"
-              id="exampleInputPassword1"
+              id="exampleInputPassword"
               placeholder="Enter Password"
+              autoComplete="on"
               required
             />
           </div>
@@ -107,6 +110,20 @@ const Register = () => {
               className="form-control"
               id="exampleInputAddress"
               placeholder="Enter Your Address "
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleInputQuestion" className="form-label">
+              Question
+            </label>
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              className="form-control"
+              id="exampleInputQuestion"
+              placeholder="Enter Your Best friend name "
               required
             />
           </div>

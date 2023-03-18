@@ -2,32 +2,25 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useNavigate, Link,useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../../styles/AuthStyles.css";
-import { useAuth } from "../../context/auth";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [question, setQuestion] = useState("");
   const navigate = useNavigate();
-  const location =useLocation();
-  const [auth, setAuth] = useAuth();
 
   // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/v1/auth/login", { email, password });
+      const res = await axios.post("/api/v1/auth/forgot-password", { email, newPassword,question });
 
       if (res.data.success) {
         toast.success(res.data.message);
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state||"/");
+
+        navigate("/login");
       } else {
         toast.error(res.data.message);
       }
@@ -37,9 +30,9 @@ const Login = () => {
     }
   };
   return (
-    <Layout title={"Login "}>
+    <Layout title={"forgot password "}>
       <div className="form-container">
-        <h1>Login</h1>
+        <h1>Forgot Password</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail" className="form-label">
@@ -55,15 +48,29 @@ const Login = () => {
               required
             />
           </div>
+          <div className="mb-3">
+            <label htmlFor="exampleInputQuestion" className="form-label">
+              Question
+            </label>
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              className="form-control"
+              id="exampleInputQuestion"
+              placeholder="Enter Your Best Friend Name"
+              required
+            />
+          </div>
 
           <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
+              New Password
             </label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Enter Password"
@@ -73,13 +80,13 @@ const Login = () => {
           </div>
           <Link to="/register">Not User? Register</Link>
           <br />
-          <Link to="/forgot-password">Forgot the Password</Link>
+          <Link to="/login">Login</Link>
           <hr />
           <div className="mb3">
 
           </div>
           <button type="submit" className="btn btn-primary">
-            Login
+            Reset
           </button>
         </form>
       </div> 
@@ -87,4 +94,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
