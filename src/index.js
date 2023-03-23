@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 mongoose.set('strictQuery', false);
 import authRoute from './routes/authRoute.js'
+import categoryRoute from './routes/categoryRoute.js'
+import productRoute from  './routes/productRoutes.js'
 import cors from 'cors'
 dotenv.config();
 
@@ -27,6 +29,8 @@ db();
 //! Routes 
 
 app.use('/api/v1/auth',authRoute)
+app.use('/api/v1/category',categoryRoute)
+app.use('/api/v1/product',productRoute)
 
 app.get('/',(req,res)=>{
     res.send({
