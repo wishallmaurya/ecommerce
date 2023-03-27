@@ -59,6 +59,29 @@ export const getSingleProductController = async (req, res) => {
     });
   }
 };
+export const getProductController = async (req, res) => {
+  try {
+    const products = await productModel
+      .find({})
+      .populate("category")
+      .select("-photo")
+      .limit(12)
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      countTotal: products.length,
+      message: "AllProducts ",
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in getting products",
+      error: error.message,
+    });
+  }
+};
 export const productPhotoController = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.pid).select("photo");
